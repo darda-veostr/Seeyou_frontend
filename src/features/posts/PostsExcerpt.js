@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 import PostAuthor from "./PostAuthor";
+import { useGetPostsQuery } from "./postsSlice";
 import ReactionButtons from "./ReactionButtons";
 import TimeAgo from "./TimeAgo";
 
-import { useSelector } from "react-redux";
-import { selectPostById } from "./postsSlice";
-
 const PostsExcerpt = ({ postId }) => {
-  const post = useSelector((state) => selectPostById(state, postId));
+  const { post } = useGetPostsQuery("getPosts", {
+    selectFromResult: ({ data }) => ({
+      post: data?.entities[postId],
+    }),
+  });
 
   return (
     <article>
